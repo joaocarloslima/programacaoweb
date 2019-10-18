@@ -13,7 +13,7 @@ class UsuarioDAO{
 
 	public function apagar($id){
 		$sql = "DELETE FROM usuarios WHERE idUsuario=$id";
-		$rs = $this->con->query($rs);
+		$rs = $this->con->query($sql);
 		if ($rs) header("Location: usuarios.php");
 		else echo $this->con->error;
 	}
