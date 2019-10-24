@@ -14,7 +14,7 @@ class QuestoesDAO{
 	public function apagar($id){
 		$sql = "DELETE FROM questoes WHERE idQuestao=$id";
 		$rs = $this->con->query($sql);
-		if ($rs) header("Location: questoes.php");
+		if ($rs) header("Location: \questoes");
 		else echo $this->con->error;
 	}
 
@@ -23,7 +23,7 @@ class QuestoesDAO{
 		$rs = $this->con->query($sql);
 
 		if ($rs) 
-			header("Location: questoes.php");
+			header("Location: \questoes");
 		else 
 			echo $this->con->error;
 	}
@@ -32,7 +32,7 @@ class QuestoesDAO{
 		$sql = "UPDATE questoes SET enunciado='$this->enunciado', tipo='$this->tipo' WHERE idQuestao=$this->id";
 		$rs = $this->con->query($sql);
 		if ($rs) 
-			header("Location: questoes.php");
+			header("Location: \questoes");
 		else 
 			echo $this->con->error;
 	}

@@ -26,6 +26,9 @@ include "menu.php";
 						<td><?= $questao->enunciado ?></td>
 						<td><?= $questao->tipo ?></td>
 						<td>
+							<a class="btn btn-info" href="\alternativas?questao=<?= $questao->idQuestao ?>">
+								<i class="fas fa-trash"></i>
+							</a>
 							<a class="btn btn-danger" href="QuestoesController.php?acao=apagar&id=<?= $questao->idQuestao ?>">
 								<i class="fas fa-trash"></i>
 							</a>
