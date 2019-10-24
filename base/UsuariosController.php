@@ -2,30 +2,44 @@
 
 include "UsuarioDAO.php";
 
-switch ($_GET["acao"]) {
-	case 'novo':
+$acao = $_GET["acao"];
+
+switch ($acao) {
+	case 'inserir':
 		$usuario = new UsuarioDAO();
 		$usuario->nome = $_POST["nome"];
 		$usuario->email = $_POST["email"];
 		$usuario->senha = $_POST["senha"];
 		$usuario->inserir();
 		break;
-	
+
 	case 'apagar':
 		$usuario = new UsuarioDAO();
-		$usuario->id = $_GET["id"];
-		$usuario->apagar();
+		$id = $_GET["id"];
+		$usuario->apagar($id);
 		break;
 	
 	case 'senha':
 		$usuario = new UsuarioDAO();
+		$id = $_POST["id"];
+		$senha = $_POST["senha"];
+		$usuario->trocarSenha($id, $senha);
+		break;
+
+	case 'editar':
+		$usuario = new UsuarioDAO();
 		$usuario->id = $_POST["id"];
-		$usuario->alterarSenha($_POST["senha"]);
+		$usuario->nome = $_POST["nome"];
+		$usuario->email = $_POST["email"];
+		$usuario->editar();
 		break;
 
 	default:
+		echo "acao não reconhecida";
 		break;
 }
+
+
 
 
 ?>
