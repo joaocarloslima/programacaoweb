@@ -2,11 +2,60 @@
 include "UsuarioDAO.php";
 
 $usuarioDAO = new UsuarioDAO();
-$lista = $usuarioDAO->buscar();
-
-include "cabecalho.php";
-include "menu.php";
+$usuarios = $usuarioDAO->buscar();
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>	</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/all.min.css">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Navbar</a>
+
+		<div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(página atual)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link disabled" href="#">Desativado</a>
+				</li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0">
+				<input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+			</form>
+		</div>
+	</nav>
+
+	<div class="container-fluid">	
+		<div class="row">
+
+			<div class="col-2">
+				<ul class="nav flex-column nav-pills vertical">
+					<li class="nav-item">
+						<a class="nav-link active" href="#">Ativo</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Link</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Link</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#">Desativado</a>
+					</li>
+				</ul>
+			</div>
+
 			<div class="col-10">	
 				<h3>Usuários</h3>
 				<button class="btn btn-primary" data-toggle="modal" data-target="#modalnovo">
@@ -20,23 +69,23 @@ include "menu.php";
 						<th>E-mail</th>
 						<th>Ações</th>
 					</tr>
-					<?php foreach($lista as $usuario): ?> 
-					<tr>
-						<td><?= $usuario->idUsuario ?></td>
-						<td><?= $usuario->nome ?></td>
-						<td><?= $usuario->email ?></td>
-						<td>
-							<a class="btn btn-danger" href="UsuariosController.php?acao=apagar&id=<?= $usuario->idUsuario ?>">
-								<i class="fas fa-user-times"></i>
-							</a>
-							<button class="btn btn-warning btn-editar" data-toggle="modal" data-target="#modaleditar" data-id="<?= $usuario->idUsuario?>" data-nome="<?= $usuario->nome ?>" data-email="<?= $usuario->email ?>">
-								<i class="fas fa-user-edit"></i>
-							</button>
-							<button class="btn btn-primary mudar-senha" data-toggle="modal" data-target="#modalsenha" data-id="<?= $usuario->idUsuario?>">
-								<i class="fas fa-user-lock"></i>
-							</button>
-						</td>
-					</tr>
+					<?php foreach ($usuarios as $usuario) : ?>
+						<tr>
+							<td><?= $usuario->idUsuario ?></td>
+							<td><?= $usuario->nome ?></td>
+							<td><?= $usuario->email ?></td>
+							<td>
+								<a class="btn btn-danger" href="UsuariosController.php?acao=apagar&id=<?= $usuario->idUsuario?>" role="button">
+									<i class="fas fa-user-times"></i>
+								</a>
+								<button class="btn btn-warning">
+									<i class="fas fa-user-edit"></i>
+								</button>
+								<button class="btn btn-primary mudar-senha" data-toggle="modal" data-target="#modalsenha" data-id=<?= $usuario->idUsuario?>>
+									<i class="fas fa-user-lock"></i>
+								</button>
+							</td>
+						</tr>
 					<?php endforeach ?>
 				</table>
 			</div>
@@ -55,7 +104,7 @@ include "menu.php";
 					</button>
 				</div>
 				<div class="modal-body">
-					<form action="UsuariosController.php?acao=inserir	" method="POST">
+					<form action="UsuariosController.php?acao=novo" method="POST">
 						<div class="form-group">
 							<label for="nome">Nome</label>
 							<input type="text" name="nome" class="form-control" id="nome" placeholder="nome completo">
@@ -80,12 +129,12 @@ include "menu.php";
 	</div>
 
 
-<!-- Modal Senha -->
+	<!-- Modal Alterar Senha-->
 	<div class="modal fade" id="modalsenha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Trocar Senha</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Alterar Senha</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -100,44 +149,12 @@ include "menu.php";
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-					<button type="submit" class="btn btn-primary">Salvar</button>
+					<button type="submit" class="btn btn-primary">Alterar senha</button>
 				</div>
 				</form>
 			</div>
 		</div>
 	</div>
-
-<!-- Modal Editar -->
-	<div class="modal fade" id="modaleditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Editar Usuário</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form action="UsuariosController.php?acao=editar" method="POST">
-						<input type="hidden" name="id" id="campo-id-editar">
-						<div class="form-group">
-							<label for="nome">Nome</label>
-							<input type="text" name="nome" class="form-control" id="novonome" placeholder="nome completo">
-						</div>
-						<div class="form-group">
-							<label for="email">email</label>
-							<input type="email" name="email" class="form-control" id="novoemail" placeholder="e-mail">
-						</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-					<button type="submit" class="btn btn-primary">Salvar</button>
-				</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
 
 </body>
 
@@ -147,19 +164,9 @@ include "menu.php";
 
 <script type="text/javascript">
 	$('.mudar-senha').on('click', function (e) {
-	  	var id = e.currentTarget.getAttribute("data-id");
-	  	document.querySelector("#campo-id").value = id;
+  	var id = e.currentTarget.getAttribute("data-id");
+  	document.querySelector("#campo-id").value = id;
 	});
-
-	$('.btn-editar').on('click', function (e) {
-	  	var id = e.currentTarget.getAttribute("data-id");
-	  	var nome = e.currentTarget.getAttribute("data-nome");
-	  	var email = e.currentTarget.getAttribute("data-email");
-	  	document.querySelector("#campo-id-editar").value = id;
-	  	document.querySelector("#novonome").value = nome;
-	  	document.querySelector("#novoemail").value = email;
-	});
-
 </script>
 
 </html>
