@@ -47,6 +47,16 @@ class QuestoesDAO{
 		}
 		return $lista;
 	}
+
+	public function buscarPorId(){
+		$sql = "SELECT * FROM questoes WHERE idQuestao=$this->id";
+		$rs = $this->con->query($sql);
+		if ($linha = $rs->fetch_object()){
+			$this->enunciado = $linha->enunciado;
+			$this->tipo = $linha->tipo;
+		}
+
+	}
 }
 
 

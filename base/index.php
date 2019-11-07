@@ -1,7 +1,7 @@
 <?php 
 
 if (!isset($_SERVER["PATH_INFO"])) {
-	echo "inicio";
+	require("login.php");
 	exit();
 }
 
