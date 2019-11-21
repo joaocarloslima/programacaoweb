@@ -1,4 +1,5 @@
 <?php 
+include "config.php";
 
 class UsuarioDAO{
 	public $id;
@@ -9,22 +10,34 @@ class UsuarioDAO{
 	private $con;
 
 	function __construct(){
-		$this->con = mysqli_connect("localhost", "root", "", "projetopw");
+		$this->con = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 	}
 
 	public function apagar($id){
 		$sql = "DELETE FROM usuarios WHERE idUsuario=$id";
 		$rs = $this->con->query($sql);
-		if ($rs) header("Location: /usuarios");
-		else echo $this->con->error;
+		if ($rs) {
+			session_start();
+			$_SESSION["success"] = "Usuário excluído com sucesso";
+			header("Location: /usuarios");
+		}
+		else {
+			session_start();
+			$_SESSION["danger"] = "Erro ao apagar usuário.";
+			header("Location: /usuarios");
+		}
+
 	}
 
 	public function inserir(){
 		$sql = "INSERT INTO usuarios VALUES (0, '$this->nome', '$this->email', md5('$this->senha') )";
 		$rs = $this->con->query($sql);
 
-		if ($rs) 
+		if ($rs){
+			session_start();
+			$_SESSION["success"] = "Usuário cadastrado com sucesso";
 			header("Location: /usuarios");
+		} 
 		else 
 			echo $this->con->error;
 	}
@@ -66,6 +79,12 @@ class UsuarioDAO{
 		}else{
 			header("Location: /?erro=1");
 		}
+	}
+
+	public function logout(){
+		session_start();
+		session_destroy();
+		header("Location: /");
 	}
 }
 

@@ -1,4 +1,5 @@
 <?php 
+include "verificarLogin.php";
 include "AlternativasDAO.php";
 include "QuestoesDAO.php";
 

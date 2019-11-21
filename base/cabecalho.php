@@ -16,7 +16,7 @@
 				</li>
 			</ul>
 			<div class="my-2 my-lg-0">
-				<a class="btn btn-primary" href="/" role="button">sair</a>
+				<a class="btn btn-primary" href="UsuariosController.php?acao=logout" role="button">sair</a>
 
 			</div>
 		</div>

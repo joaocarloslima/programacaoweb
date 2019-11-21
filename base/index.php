@@ -6,7 +6,6 @@ if (!isset($_SERVER["PATH_INFO"])) {
 }
 
 switch ($_SERVER["PATH_INFO"]) {
-
  	case '/usuarios':
  		require("usuarios.php");
  		break;
@@ -22,5 +21,5 @@ switch ($_SERVER["PATH_INFO"]) {
  	default:
  		echo "Erro 404 - página não encontrada";
  		break;
- } 
+} 
 ?>

@@ -1,4 +1,5 @@
-<?php 
+<?php
+include "verificarLogin.php";
 include "QuestoesDAO.php";
 
 $questoesDAO = new QuestoesDAO();

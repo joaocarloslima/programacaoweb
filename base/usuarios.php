@@ -1,5 +1,7 @@
 <?php 
+include "verificarLogin.php";
 include "UsuarioDAO.php";
+include "alertas.php";
 
 $usuarioDAO = new UsuarioDAO();
 $lista = $usuarioDAO->buscar();
@@ -7,7 +9,12 @@ $lista = $usuarioDAO->buscar();
 include "cabecalho.php";
 include "menu.php";
 ?>
-			<div class="col-10">	
+			<div class="col-10">
+				<?php 
+					mostrarAlerta("success");
+					mostrarAlerta("danger");
+				?>
+
 				<h3>Usuários</h3>
 				<button class="btn btn-primary" data-toggle="modal" data-target="#modalnovo">
 					<i class="fas fa-user-plus"></i>
