@@ -1,13 +1,22 @@
 <?php
 include "verificarLogin.php";
 include "QuestoesDAO.php";
+include "TiposDAO.php";
 
 $questoesDAO = new QuestoesDAO();
 $lista = $questoesDAO->buscar();
 
+$tiposDAO = new TiposDAO();
+$tipos = $tiposDAO->buscar();
+
 include "cabecalho.php";
 include "menu.php";
 ?>
+<style type="text/css">
+	.alert-completar{
+		display: none;
+	}
+</style>
 			<div class="col-10">	
 				<h3>Questões</h3>
 				<button class="btn btn-primary" data-toggle="modal" data-target="#modalnovo">
@@ -63,7 +72,15 @@ include "menu.php";
 						</div>
 						<div class="form-group">
 							<label for="email">tipo</label>
-							<input type="text" name="tipo" class="form-control" id="tipo" placeholder="tipo da questão">
+							<select name="tipo" id="tipo" class="form-control tipo">
+								<?php foreach ($tipos as $tipo) {
+									echo "<option value='$tipo->idTipoQuestao'>$tipo->tipo</option>";
+								}
+								?>
+							</select>
+							<div class="alert alert-light alert-completar" role="alert">
+							  Use # para representar o local onde o texto deve ser completado.
+							</div>
 						</div>
 				</div>
 				<div class="modal-footer">
@@ -93,8 +110,16 @@ include "menu.php";
 							<input type="text" name="enunciado" class="form-control" id="novoenunciado" placeholder="enunciado">
 						</div>
 						<div class="form-group">
-							<label for="email">Tipo</label>
-							<input type="text" name="tipo" class="form-control" id="novotipo" placeholder="tipo">
+							<label for="novotipo">Tipo</label>
+							<select name="tipo" id="novotipo" class="form-control tipo">
+								<?php foreach ($tipos as $tipo) {
+									echo "<option value='$tipo->idTipoQuestao'>$tipo->tipo</option>";
+								}
+								?>
+							</select>
+							<div class="alert alert-light alert-completar" role="alert">
+							  Use # para representar o local onde o texto deve ser completado.
+							</div>
 						</div>
 				</div>
 				<div class="modal-footer">
@@ -122,6 +147,23 @@ include "menu.php";
 	  	document.querySelector("#novoenunciado").value = enunciado;
 	  	document.querySelector("#novotipo").value = tipo;
 	});
+
+	$('.tipo').on('change', function (e) {
+		var select = e.currentTarget;
+		var option = select.children[select.selectedIndex];
+		var texto = option.textContent;
+	  	var alerta = document.querySelectorAll(".alert-completar");
+	  	if (texto == "Completar"){
+	  		alerta.forEach(function(a){
+	  			a.style.display = 'block';
+	  		});
+	  	}else{
+	  		alerta.forEach(function(a){
+	  			a.style.display = 'none';
+	  		});
+	  	}	  	
+	});
+
 
 </script>
 

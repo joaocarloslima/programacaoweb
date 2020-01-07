@@ -16,6 +16,14 @@ $questoes->buscarPorId();
 include "cabecalho.php";
 include "menu.php";
 ?>
+<style type="text/css">
+	.imagem-alternativa{
+		max-width:300px;
+	    max-height:200px;
+	    width: auto;
+	    height: auto;
+	}
+</style>
 <div class="container">
 	
 	<h2><?= $questoes->enunciado ?></h2>
@@ -23,9 +31,14 @@ include "menu.php";
 	<ul class="list-group lista-alternativas">
 		<?php foreach ($lista as $alternativa) : ?>
 			<li class="list-group-item d-flex justify-content-between align-items-center">
-				<?= $alternativa->texto ?>
+				<?php if ($questoes->idtipo == 4): ?>
+					<img src="<?= $alternativa->imagem ?>" class="mr-3 img-thumbnail imagem-alternativa" alt="...">
+				<?php endif ?>
+				<div class="media-body">
+					<h5 class="mt-0 mb-1"><?= $alternativa->texto ?></h5>
+				</div>
 				<span class="badge">
-					<button class="btn btn-correta"><i class="fas fa-<?= ($alternativa->correta)?'check':'times'?>"></i></button>
+					<button class="btn btn-correta <?= ($alternativa->correta)?'btn-success':''?>"><i class="fas fa-<?= ($alternativa->correta)?'check':'times'?>"></i></button>
 					<a href="AlternativasController.php?acao=apagar&id=<?= $alternativa->idAlternativa?>&idQuestao=<?= $idQuestao?>" class="btn btn-danger"><i class="fas fa-trash text-white"></i></a>
 				</span>
 			</li>
@@ -44,12 +57,20 @@ include "menu.php";
 				</button>
 			</div>
 			<div class="modal-body">
-				<form action="AlternativasController.php?acao=inserir" method="POST">
+				<form action="AlternativasController.php?acao=inserir" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="idQuestao" value="<?= $idQuestao ?>">
 					<div class="form-group">
 						<label for="texto">Texto</label>
 						<input type="text" name="texto" class="form-control" id="texto" placeholder="texto da alternativa">
 					</div>
+					<?php if ($questoes->idtipo == 4): ?>
+						<div class="input-group">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="imagem" name="imagem">
+								<label class="custom-file-label" for="imagem" aria-describedby="arquivo da imagem">escolha o arquivo da imagem</label>
+							</div>
+						</div>
+					<?php endif ?>
 					<div class="form-group">
 						<div class="form-check">
 							<input class="form-check-input" type="checkbox" value="" id="correta" name="correta">

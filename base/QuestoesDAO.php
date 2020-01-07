@@ -4,6 +4,7 @@ class QuestoesDAO{
 	public $id;
 	public $enunciado;
 	public $tipo;
+	public $idtipo;
 
 	private $con;
 
@@ -29,7 +30,7 @@ class QuestoesDAO{
 	}
 
 	public function editar(){
-		$sql = "UPDATE questoes SET enunciado='$this->enunciado', tipo='$this->tipo' WHERE idQuestao=$this->id";
+		$sql = "UPDATE questoes SET enunciado='$this->enunciado', idtipo='$this->tipo' WHERE idQuestao=$this->id";
 		$rs = $this->con->query($sql);
 		if ($rs) 
 			header("Location: \questoes");
@@ -39,7 +40,8 @@ class QuestoesDAO{
 
 
 	public function buscar(){
-		$sql = "SELECT * FROM questoes";
+		$sql = "SELECT questoes.*, tipo_questao.tipo FROM questoes INNER JOIN tipo_questao ON tipo_questao.idTipoQuestao=questoes.idtipo";
+		//echo $sql;
 		$rs = $this->con->query($sql);
 		$lista = array();
 		while ($linha = $rs->fetch_object()){
@@ -49,10 +51,11 @@ class QuestoesDAO{
 	}
 
 	public function buscarPorId(){
-		$sql = "SELECT * FROM questoes WHERE idQuestao=$this->id";
+		$sql = "SELECT questoes.*, tipo_questao.tipo FROM questoes INNER JOIN tipo_questao ON tipo_questao.idTipoQuestao=questoes.idtipo WHERE idQuestao=$this->id";
 		$rs = $this->con->query($sql);
 		if ($linha = $rs->fetch_object()){
 			$this->enunciado = $linha->enunciado;
+			$this->idtipo = $linha->idtipo;
 			$this->tipo = $linha->tipo;
 		}
 

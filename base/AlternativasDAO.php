@@ -5,6 +5,7 @@ class AlternativasDAO{
 	public $texto;
 	public $idQuestao;
 	public $correta;
+	public $imagem;
 
 	private $con;
 
@@ -20,7 +21,7 @@ class AlternativasDAO{
 	}
 
 	public function inserir(){
-		$sql = "INSERT INTO alternativas VALUES (0, $this->idQuestao, '$this->texto', '$this->correta')";
+		$sql = "INSERT INTO alternativas (idAlternativa, idQuestao, texto, correta, imagem) VALUES (0, $this->idQuestao, '$this->texto', '$this->correta', '$this->imagem')";
 		$rs = $this->con->query($sql);
 
 		if ($rs) 

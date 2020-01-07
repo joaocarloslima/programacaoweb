@@ -14,6 +14,10 @@ switch ($_SERVER["PATH_INFO"]) {
  		require("questoes.php");
  		break;
 
+ 	case '/tipos':
+ 		require("tipos.php");
+ 		break;
+
  	case '/alternativas':
  		require("alternativas.php");
  		break;

@@ -10,7 +10,7 @@
 						<a class="nav-link <?= ($url=='/questoes')?'active':'' ?>" href="/questoes">Questões</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link <?= ($url=='/alternativas')?'active':'' ?>" href="\alternativas">Alternativas</a>
+						<a class="nav-link <?= ($url=='/tipos')?'active':'' ?>" href="\tipos">Tipos de Questões</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="ranking.php">Ranking</a>
